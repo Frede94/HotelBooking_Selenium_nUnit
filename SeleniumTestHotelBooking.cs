@@ -36,7 +36,7 @@ namespace HotelBooking_Selenium_nUnit
             Driver.FindElement(By.XPath("//*[@id='CustomerId']/option[2]")).Click();
             Wait(0);
             Driver.FindElement(By.XPath("/html/body/div/main/div[1]/div/form/div[4]/input")).Click();
-            Wait(2000);
+            Wait(500);
    
             var bookingTablerows = Driver.FindElements(By.XPath("/html/body/div/main/table[2]/tbody/tr")).Count;
             //Console.WriteLine(bookingTablerows);
@@ -48,11 +48,11 @@ namespace HotelBooking_Selenium_nUnit
             //Implement actions to delete created booking.
             //This is not implemented in Hotelbooking at the moment
 
-            Driver.Quit();
 
             Assert.That(startDate, Is.EqualTo(DateTime.Today.AddDays(21).ToString()));
             Assert.That(endDate, Is.EqualTo(DateTime.Today.AddDays(22).ToString()));
             Assert.That(customer, Is.EqualTo("Jane Doe").IgnoreCase);
+            Driver.Quit();
         }
 
         [Test, Order(2)]
@@ -73,15 +73,15 @@ namespace HotelBooking_Selenium_nUnit
             Driver.FindElement(By.XPath("//*[@id='CustomerId']/option[2]")).Click();
             Wait(0);
             Driver.FindElement(By.XPath("/html/body/div/main/div[1]/div/form/div[4]/input")).Click();
-            Wait(2000);
+            Wait(500);
 
             string errorMessage = Driver.FindElement(By.XPath("/html/body/div/main/h4[1]")).Text;
 
             //Implement actions to delete created booking.
             //This is not implemented in Hotelbooking at the moment
 
-            Driver.Quit();
             Assert.That(errorMessage, Is.EqualTo("The booking could not be created. There were no available room.").IgnoreCase);
+            Driver.Quit();
         }
 
         [Test, Order(3)]
@@ -123,6 +123,7 @@ namespace HotelBooking_Selenium_nUnit
                 dayEnd = dayEnd + 4;
             }
 
+            Wait(500);
             Driver.Quit();            
         }
 
@@ -147,6 +148,7 @@ namespace HotelBooking_Selenium_nUnit
 
             Assert.That(roomName, Is.EqualTo("SeleniumRoom").IgnoreCase);
 
+            Wait(500);
             Driver.Quit();
         }
 
@@ -157,7 +159,7 @@ namespace HotelBooking_Selenium_nUnit
             Driver.Navigate().GoToUrl("https://localhost:12918/Bookings");
             Wait(0);
             bool deleted = false;
-            int i = 0;
+            int i = 1;
 
             Driver.FindElement(By.XPath("/html/body/header/nav/div/div/ul/li[2]/a")).Click();
             Wait(0);
@@ -166,6 +168,8 @@ namespace HotelBooking_Selenium_nUnit
             while(deleted == false)
             {
                 var roomName = Driver.FindElement(By.XPath("/html/body/div/main/table/tbody/tr[" + i + "]/td[1]")).Text;
+
+                Console.WriteLine(roomName);
                 if(roomName == "SeleniumRoom")
                 {
                     Driver.FindElement(By.XPath("/html/body/div/main/table/tbody/tr[" + i + "]/td[2]/a[3]")).Click();
@@ -180,6 +184,10 @@ namespace HotelBooking_Selenium_nUnit
             var newRoomTablerows = Driver.FindElements(By.XPath("/html/body/div/main/table/tbody/tr")).Count;
 
             Assert.That(roomTablerows-1, Is.EqualTo(newRoomTablerows));
+
+            Wait(500);
+            Driver.Quit();
+
         }
         #endregion
 
@@ -198,7 +206,7 @@ namespace HotelBooking_Selenium_nUnit
             }
             else
             {
-                Thread.Sleep(500);
+                Thread.Sleep(10);
             }
         }
     }
