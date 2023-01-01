@@ -15,9 +15,6 @@ namespace HotelBooking_Selenium_nUnit
         public void Setup()
         {
             Driver = new ChromeDriver();
-            //Driver = new FirefoxDriver();
-            //Driver = new SafariDriver();
-            //Driver = new EdgeDriver();
         }
 
         #region Hotelbooking
@@ -42,7 +39,7 @@ namespace HotelBooking_Selenium_nUnit
             Wait(2000);
    
             var bookingTablerows = Driver.FindElements(By.XPath("/html/body/div/main/table[2]/tbody/tr")).Count;
-            Console.WriteLine(bookingTablerows);
+            //Console.WriteLine(bookingTablerows);
 
             string startDate = Driver.FindElement(By.XPath("/html/body/div/main/table[2]/tbody/tr["+ bookingTablerows +"]/td[1]")).Text;
             String endDate = Driver.FindElement(By.XPath("/html/body/div/main/table[2]/tbody/tr["+ bookingTablerows +"]/td[2]")).Text;
@@ -93,18 +90,54 @@ namespace HotelBooking_Selenium_nUnit
             //Driver.Navigate().GoToUrl("https://localhost:62964/Bookings");
             Driver.Navigate().GoToUrl("https://localhost:12918/Bookings");
 
-            Driver.Quit();
-            Assert.Pass();
+            int dayStart = 30;
+            int dayEnd = 32;
+
+            for (int i = 1; i < 4; i++)
+            {
+                Driver.FindElement(By.XPath("/html/body/div/main/p[1]/a")).Click();
+                Wait(0);
+                Driver.FindElement(By.XPath("//*[@id='StartDate']")).SendKeys(DateTime.Today.AddDays(dayStart).ToString());
+                Wait(0);
+                Driver.FindElement(By.XPath("//*[@id='EndDate']")).SendKeys(DateTime.Today.AddDays(dayEnd).ToString());
+                Wait(0);
+                Driver.FindElement(By.XPath("//*[@id='CustomerId']")).Click();
+                Wait(0);
+                Driver.FindElement(By.XPath("//*[@id='CustomerId']/option[2]")).Click();
+                Wait(0);
+                Driver.FindElement(By.XPath("/html/body/div/main/div[1]/div/form/div[4]/input")).Click();
+                Wait(0);
+                
+                var bookingTablerows = Driver.FindElements(By.XPath("/html/body/div/main/table[2]/tbody/tr")).Count;
+                //Console.WriteLine(bookingTablerows);
+
+                string startDate = Driver.FindElement(By.XPath("/html/body/div/main/table[2]/tbody/tr[" + bookingTablerows + "]/td[1]")).Text;
+                string endDate = Driver.FindElement(By.XPath("/html/body/div/main/table[2]/tbody/tr[" + bookingTablerows + "]/td[2]")).Text;
+                string customer = Driver.FindElement(By.XPath("/html/body/div/main/table[2]/tbody/tr[" + bookingTablerows + "]/td[4]")).Text;
+
+                Assert.That(startDate, Is.EqualTo(DateTime.Today.AddDays(dayStart).ToString()));
+                Assert.That(endDate, Is.EqualTo(DateTime.Today.AddDays(dayEnd).ToString()));
+                Assert.That(customer, Is.EqualTo("Jane Doe").IgnoreCase);
+
+                dayStart = dayStart + 4;
+                dayEnd = dayEnd + 4;
+            }
+
+            Driver.Quit();            
         }
 
-        //[Test]
-        //public void HotelBookingTryCreateRoomsTrue()
-        //{
-        //    //Driver.Navigate().GoToUrl("https://localhost:62964/Bookings");
-        //    Driver.Navigate().GoToUrl("https://localhost:12918/Bookings");
+        [Test]
+        public void HotelBookingTryCreateRoomsTrue()
+        {
+            //Driver.Navigate().GoToUrl("https://localhost:62964/Bookings");
+            Driver.Navigate().GoToUrl("https://localhost:12918/Bookings");
 
-        //    Assert.Pass();
-        //}
+            Driver.FindElement(By.XPath("/html/body/header/nav/div/div/ul/li[2]/a")).Click();
+            Wait(0);
+
+            Driver.Quit();            
+            Assert.Pass();
+        }
         #endregion
 
         /// <summary>
