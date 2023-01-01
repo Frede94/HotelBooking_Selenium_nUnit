@@ -18,7 +18,7 @@ namespace HotelBooking_Selenium_nUnit
         }
 
         #region Hotelbooking
-        [Test]
+        [Test, Order(1)]
         public void HotelBookingTryCreateBookingTrue()
         {
             //Port number varies from computer to computer, if this 404, check if port nr is correct.
@@ -55,7 +55,7 @@ namespace HotelBooking_Selenium_nUnit
             Assert.That(customer, Is.EqualTo("Jane Doe").IgnoreCase);
         }
 
-        [Test]
+        [Test, Order(2)]
         public void HotelBookingTryCreateBookingFalse()
         {
             //Port number varies from computer to computer, if this 404, check if port nr is correct.
@@ -84,12 +84,12 @@ namespace HotelBooking_Selenium_nUnit
             Assert.That(errorMessage, Is.EqualTo("The booking could not be created. There were no available room.").IgnoreCase);
         }
 
-        [Test]
+        [Test, Order(3)]
         public void HotelBookingTryCreatingMultipleBookings()
         {
-            //Driver.Navigate().GoToUrl("https://localhost:62964/Bookings");
+            //Port number varies from computer to computer, if this 404, check if port nr is correct.
             Driver.Navigate().GoToUrl("https://localhost:12918/Bookings");
-
+            Wait(0);
             int dayStart = 30;
             int dayEnd = 32;
 
@@ -126,17 +126,60 @@ namespace HotelBooking_Selenium_nUnit
             Driver.Quit();            
         }
 
-        [Test]
+        [Test, Order(4)]
         public void HotelBookingTryCreateRoomsTrue()
         {
-            //Driver.Navigate().GoToUrl("https://localhost:62964/Bookings");
+            //Port number varies from computer to computer, if this 404, check if port nr is correct.
             Driver.Navigate().GoToUrl("https://localhost:12918/Bookings");
+            Wait(0);
+            Driver.FindElement(By.XPath("/html/body/header/nav/div/div/ul/li[2]/a")).Click();
+            Wait(0);
+            Driver.FindElement(By.XPath("/html/body/div/main/p/a")).Click();
+            Wait(0);
+            Driver.FindElement(By.XPath("//*[@id='Description']")).SendKeys("SeleniumRoom");
+            Wait(0);
+            Driver.FindElement(By.XPath("/html/body/div/main/div[1]/div/form/div[2]/input")).Click();
+            Wait(0);
+
+            var roomTablerows = Driver.FindElements(By.XPath("/html/body/div/main/table/tbody/tr")).Count;
+
+            var roomName = Driver.FindElement(By.XPath("/html/body/div/main/table/tbody/tr[" + roomTablerows + "]/td[1]")).Text;
+
+            Assert.That(roomName, Is.EqualTo("SeleniumRoom").IgnoreCase);
+
+            Driver.Quit();
+        }
+
+        [Test, Order(5)]
+        public void HotelBookingTryDeletingNewlyCreatedRoom()
+        {
+            //Port number varies from computer to computer, if this 404, check if port nr is correct.
+            Driver.Navigate().GoToUrl("https://localhost:12918/Bookings");
+            Wait(0);
+            bool deleted = false;
+            int i = 0;
 
             Driver.FindElement(By.XPath("/html/body/header/nav/div/div/ul/li[2]/a")).Click();
             Wait(0);
+            var roomTablerows = Driver.FindElements(By.XPath("/html/body/div/main/table/tbody/tr")).Count;
+            
+            while(deleted == false)
+            {
+                var roomName = Driver.FindElement(By.XPath("/html/body/div/main/table/tbody/tr[" + i + "]/td[1]")).Text;
+                if(roomName == "SeleniumRoom")
+                {
+                    Driver.FindElement(By.XPath("/html/body/div/main/table/tbody/tr[" + i + "]/td[2]/a[3]")).Click();
+                    Wait(0);
+                    Driver.FindElement(By.XPath("/html/body/div/main/div/form/input[2]")).Click();
+                    Wait(0);
+                    deleted = true;
+                }
+                i++;
+            }
 
-            Driver.Quit();            
-            Assert.Pass();
+            var newRoomTablerows = Driver.FindElements(By.XPath("/html/body/div/main/table/tbody/tr")).Count;
+
+            Assert.That(roomTablerows-1, Is.EqualTo(newRoomTablerows));
         }
         #endregion
 
