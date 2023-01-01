@@ -33,5 +33,17 @@ namespace HotelBooking_Selenium_nUnit
             Console.WriteLine("test1");
             Assert.Pass();
         }
+
+        [Test]
+        public void OpenBrowser()
+        {
+            //Driver.Navigate().GoToUrl("https://localhost:62964/Bookings");
+            Driver.Navigate().GoToUrl("https://demowf.aspnetawesome.com");
+
+            Driver.FindElement(By.Id("ContentPlaceHolder1_Meal")).SendKeys("Tomato");
+
+            Console.WriteLine("test1");
+            Assert.Pass();
+        }
     }
 }
