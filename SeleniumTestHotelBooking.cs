@@ -19,7 +19,7 @@ namespace HotelBooking_Selenium_nUnit
 
         #region Hotelbooking
         [Test, Order(1)]
-        public void HotelBookingTryCreateBookingTrue()
+        public void HotelBooking_TryCreateBooking_True()
         {
             //Port number varies from computer to computer, if this 404, check if port nr is correct.
             Driver.Navigate().GoToUrl("https://localhost:12918/Bookings");
@@ -56,7 +56,7 @@ namespace HotelBooking_Selenium_nUnit
         }
 
         [Test, Order(2)]
-        public void HotelBookingTryCreateBookingFalse()
+        public void HotelBooking_TryCreateBooking_False()
         {
             //Port number varies from computer to computer, if this 404, check if port nr is correct.
             Driver.Navigate().GoToUrl("https://localhost:12918/Bookings");
@@ -85,7 +85,7 @@ namespace HotelBooking_Selenium_nUnit
         }
 
         [Test, Order(3)]
-        public void HotelBookingTryCreatingMultipleBookings()
+        public void HotelBooking_TryCreatingMultipleBookings()
         {
             //Port number varies from computer to computer, if this 404, check if port nr is correct.
             Driver.Navigate().GoToUrl("https://localhost:12918/Bookings");
@@ -128,7 +128,7 @@ namespace HotelBooking_Selenium_nUnit
         }
 
         [Test, Order(4)]
-        public void HotelBookingTryCreateRoomsTrue()
+        public void HotelBooking_TryCreateRooms_True()
         {
             //Port number varies from computer to computer, if this 404, check if port nr is correct.
             Driver.Navigate().GoToUrl("https://localhost:12918/Bookings");
@@ -153,7 +153,7 @@ namespace HotelBooking_Selenium_nUnit
         }
 
         [Test, Order(5)]
-        public void HotelBookingTryDeletingNewlyCreatedRoom()
+        public void HotelBooking_TryDeletingNewlyCreatedRoom()
         {
             //Port number varies from computer to computer, if this 404, check if port nr is correct.
             Driver.Navigate().GoToUrl("https://localhost:12918/Bookings");
