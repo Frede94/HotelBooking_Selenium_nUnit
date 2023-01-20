@@ -33,6 +33,7 @@ namespace HotelBooking_Selenium_nUnit
             Wait(2000);
             Driver.FindElement(By.XPath("//div[@id='ContentPlaceHolder1_Meal-dropmenu']//li[text()='Almonds']")).Click();
 
+            //Select Celery AjaxCheckBoxList
             Driver.FindElement(By.CssSelector("#maincont > div:nth-child(3) > div:nth-child(5) > div:nth-child(2) > div.awe-ajaxcheckboxlist-field.awe-field > div > ul > li:nth-child(1) > label > div.o-con")).Click();
 
             CustomControl.ComboBoxControl("ContentPlaceHolder1_AllMealsCombo", "Almond");
