@@ -7,9 +7,8 @@ using OpenQA.Selenium.Safari;
 namespace HotelBooking_Selenium_nUnit
 {
     [TestFixture]
-    public class HotelBookingTests
+    public class HotelBookingTests : DriverHelper
     {
-        public IWebDriver Driver;
 
         [SetUp]
         public void Setup()

@@ -7,9 +7,8 @@ using OpenQA.Selenium.Safari;
 namespace HotelBooking_Selenium_nUnit
 {
     [TestFixture]
-    public class AspnetAwesomeTests
+    public class AspnetAwesomeTests : DriverHelper
     {
-        public IWebDriver Driver;
 
         [SetUp]
         public void Setup()
@@ -28,19 +27,36 @@ namespace HotelBooking_Selenium_nUnit
             Driver.Navigate().GoToUrl("https://demowf.aspnetawesome.com");
 
             IWebElement autoCompleteControl = Driver.FindElement(By.Id("ContentPlaceHolder1_Meal"));
-            autoCompleteControl.SendKeys("Almonds");
+            autoCompleteControl.SendKeys("Almo");
             autoCompleteControl.SendKeys(Keys.Return);
             autoCompleteControl.SendKeys(Keys.Enter);
+            Wait(2000);
+            Driver.FindElement(By.XPath("//div[@id='ContentPlaceHolder1_Meal-dropmenu']//li[text()='Almonds']")).Click();
 
             Driver.FindElement(By.CssSelector("#maincont > div:nth-child(3) > div:nth-child(5) > div:nth-child(2) > div.awe-ajaxcheckboxlist-field.awe-field > div > ul > li:nth-child(1) > label > div.o-con")).Click();
 
-            IWebElement comboControl = Driver.FindElement(By.XPath("//*[@id='ContentPlaceHolder1_AllMealsCombo-awed']"));
-            comboControl.Clear();
-            comboControl.SendKeys("Almond");
-
-            Driver.FindElement(By.XPath("//div[@id='ContentPlaceHolder1_AllMealsCombo-dropmenu']//li[text()='Almond']")).Click();
+            CustomControl.ComboBoxControl("ContentPlaceHolder1_AllMealsCombo", "Almond");
 
             Assert.Pass();
+        }
+
+        /// <summary>
+        /// Method to make the execution of test wait, for a specified amount of time.
+        /// Purely for the benefit of being able to se, the actions made, 
+        /// since the window would close or action would be completed nearly instantly.
+        /// Default wait is 500 ms.
+        /// </summary>
+        /// <param name="time"></param>
+        public void Wait(int time)
+        {
+            if (time > 0)
+            {
+                Thread.Sleep(time);
+            }
+            else
+            {
+                Thread.Sleep(10);
+            }
         }
 
         #region multiple test methods, Opens new window for each test
